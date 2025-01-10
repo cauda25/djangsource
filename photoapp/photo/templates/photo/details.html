@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block title %}
+  <title>PHOTO 상세</title>
+{% endblock title %}
+{% block content %}
+  <form action="" method="post">
+    <div class="mb-3 row">
+      <label for="tile" class="col-sm-2 col-form-lable">title</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" id="title" name="title" value="{{photo.title}}">
+      </div>
+    </div>
+    <div class="mb-3 row">
+      <label for="author" class="col-sm-2 col-form-lable">author</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" id="author" name="author" value="{{photo.author}}">
+      </div>
+    </div>
+    <div class="mb-3 row">
+      <label for="image" class="col-sm-2 col-form-lable">image</label>
+      <div class="col-sm-10">
+        <img src="{{photo.image}}" alt="{{photo.title}}" srcset="">
+      </div>
+    </div>
+    <div class="mb-3 row">
+      <label for="description" class="col-sm-2 col-form-lable">description</label>
+      <div class="col-sm-10">
+        <textarea type="text" class="form-control" id="description" name="description">{{photo.description}}</textarea>
+      </div>
+    </div>
+    <div class="mb-3 row">
+      <label for="prive" class="col-sm-2 col-form-lable">prive</label>
+      <div class="col-sm-10">
+        <input type="number" class="form-control" id="prive" name="prive" value="{{photo.prive}}">
+      </div>
+    </div>
+    <div>
+      <a href="{% url "photo_list" %}" class="btn btn-dark">목록</a>
+      <a href="{% url "photo_edit" id=photo.id%}" class="btn btn-dark">수정</a>
+    </div>
+  </form>
+{% endblock content %}

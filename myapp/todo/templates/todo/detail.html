@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block title %}
+  <title>Todo 상세</title>
+{% endblock title %}
+{% block content %}
+  <div class="container">
+    <h1>ToDo Detail</h1>
+    <form>
+      <div class="mb-3">
+        <label for="title" class="form-label">할 일</label>
+        <input type="text" class="form-control" id="title" name="title" value="{{todo.title}}" readolny="readolny"/>
+      </div>
+      <div class="mb-3">
+        <label for="description" class="form-label">상세 내용</label>
+        <textarea class="form-control" id="description" rows="3" name="description" readolny="readolny">{{todo.description}}</textarea>
+      </div>
+      <div class="mb-3">
+        <label class="form-check-label" for="completed">완료여부</label>
+        <input type="checkbox" class="form-check-input" id="completed" name="completed" disabled="disabled" {% if todo.completed %} checked="checked" {% endif %}/>
+      </div>
+      <div class="mb-3">
+        <label class="form-check-label" for="important">중요여부</label>
+        <input type="checkbox" class="form-check-input" id="important" name="important" disabled="disabled" {% if todo.important %} checked="checked" {% endif %}/>
+      </div>
+
+      <a href="{% url "todo_list" %}" class="btn btn-outline-secondary">목록</a>
+      <a href="{% url "todo_edit" id=todo.id %}" class="btn btn-dark">수정</a>
+    </form>
+  </div>
+{% endblock content %}
