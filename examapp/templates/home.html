@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load static %}
 {% block content %}
   <h1>HOME</h1>
   <h3>Musician</h3>
@@ -9,8 +10,19 @@
     <li>
       <a href="{% url "musician_create" %}">Create</a>
     </li>
+
+  </ul>
+  <h3>app1</h3>
+  <ul>
     <li>
-      <a href="">Update</a>
+      <a href="{% url "app1:list" %}">List</a>
     </li>
   </ul>
+  <h3>app2</h3>
+  <ul>
+    <li>
+      <a href="{% url "app2:list" %}">List</a>
+    </li>
+  </ul>
+  <img src="{% static "img/nami2.jpg" %}" alt="">
 {% endblock content %}

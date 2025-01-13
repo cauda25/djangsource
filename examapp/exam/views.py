@@ -1,11 +1,13 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_list_or_404
 from .forms import MusicianForm
 from .models import Musician
 
 
 def musician_edit(request, id):
 
-    musician = Musician.objects.get(id=id)
+    # musician = Musician.objects.get(id=id)
+    musician = get_list_or_404(Musician, id=id)
+
     if request.method == "POST":
         form = MusicianForm(request.POST, instance=musician)
         if form.is_valid():
@@ -13,7 +15,7 @@ def musician_edit(request, id):
             return redirect("musician_list")
     else:
         form = MusicianForm(instance=musician)
-    return render(request, "m_edit.html", {"form": form})
+    return render(request, "exam/m_edit.html", {"form": form})
 
 
 def home(request):
@@ -24,7 +26,7 @@ def musician_list(request):
 
     musicians = Musician.objects.all()
 
-    return render(request, "m_list.html", {"musicians": musicians})
+    return render(request, "exam/m_list.html", {"musicians": musicians})
 
 
 def musician_create(request):
@@ -40,4 +42,4 @@ def musician_create(request):
     else:
         form = MusicianForm()
 
-    return render(request, "m_create.html", {"form": form})
+    return render(request, "exam/m_create.html", {"form": form})
