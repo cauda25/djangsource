@@ -3,37 +3,38 @@
   <title>PHOTO 수정</title>
 {% endblock title %}
 {% block content %}
+  {% include "form_errors.html" %}
   <form action="" method="post">
     {% csrf_token %}
     <div class="mb-3 row">
       <label for="tile" class="col-sm-2 col-form-lable">title</label>
       <div class="col-sm-10">
-        <input type="text" class="form-control" id="title" name="title" value="{{photo.title}}">
+        <input type="text" class="form-control" id="title" name="title" value="{{form.title.value}}">
       </div>
     </div>
     <div class="mb-3 row">
       <label for="author" class="col-sm-2 col-form-lable">author</label>
       <div class="col-sm-10">
-        <input type="text" class="form-control" id="author" name="author" value="{{photo.author}}">
+        <input type="text" class="form-control" id="author" name="author" value="{{form.author.value}}">
       </div>
     </div>
     <div class="mb-3 row">
       <label for="image" class="col-sm-2 col-form-lable">image</label>
       <div class="col-sm-10">
-        <img src="{{photo.image}}" alt="{{photo.title}}" srcset="">
-        <input type="text" class="form-control" id="image" name="image">
+        <img src="{{form.image.value}}" alt="{{form.title.value}}" srcset="">
+        <input type="text" class="form-control" id="image" name="image" value="{{form.image.value}}">
       </div>
     </div>
     <div class="mb-3 row">
       <label for="description" class="col-sm-2 col-form-lable">description</label>
       <div class="col-sm-10">
-        <textarea type="text" class="form-control" id="description" name="description">{{photo.description}}</textarea>
+        <textarea type="text" class="form-control" id="description" name="description">{{form.description.value}}</textarea>
       </div>
     </div>
     <div class="mb-3 row">
       <label for="prive" class="col-sm-2 col-form-lable">prive</label>
       <div class="col-sm-10">
-        <input type="number" class="form-control" id="prive" name="prive" value="{{photo.prive}}">
+        <input type="number" class="form-control" id="prive" name="prive" value="{{form.prive.value}}">
       </div>
     </div>
     <div>

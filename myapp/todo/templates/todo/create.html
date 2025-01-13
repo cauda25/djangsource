@@ -5,6 +5,8 @@
 {% block content %}
   <div class="container">
     <h1>ToDo Create</h1>
+    {% include "form_errors.html" %}
+
     <form action="" method="post">
       {% csrf_token %}
       <div class="mb-3">
