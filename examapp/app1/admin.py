@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Person, Post
+from .models import Person, Post, Comment
 
 
 # admin 사이트에서 관리할 모델 등롣
@@ -29,3 +29,9 @@ class PostAdmin(admin.ModelAdmin):
     list_display_links = ("author_name",)
     # 검색 창 생성
     search_fields = ("title",)
+
+
+@admin.register(Comment)
+class PostAdmin(admin.ModelAdmin):
+    list_display = ("post", "message", "created_at")
+    list_display_links = ("message",)
