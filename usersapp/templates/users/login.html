@@ -4,14 +4,15 @@
   <h1>Login</h1>
 
   <form action="" method="post">
+    {% csrf_token %}
     <div class="mb-3">
       <label for="userid" class="form-label">User ID</label>
-      <input type="text" class="form-control" id="userid" placeholder="userid">
+      <input type="text" class="form-control" id="userid" placeholder="userid" name="username">
     </div>
     <div class="mb-3">
       <label for="password" class="form-label">Password</label>
-      <input type="password" class="form-control" id="password" placeholder="Password">
+      <input type="password" class="form-control" id="password" placeholder="Password" name="password">
     </div>
-    <button class="btn btn-ptimary"></button>
+    <button class="btn btn-primary">로그인</button>
   </form>
 {% endblock content %}
