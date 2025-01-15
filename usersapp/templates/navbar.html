@@ -16,10 +16,9 @@
           <li class="nav-item">
             <a class="nav-link" href="{% url "users:register" %}">Register</a>
           </li>
-        {% endif %}
-        {% if user.is_authenticated %}
+        {% else %}
           <li class="nav-item">
-            <a class="nav-link" href="{% url "users:logout" %}">Logout</a>
+            <a class="nav-link" href="#" id="logout">Logout</a>
           </li>
         {% endif %}
         <li class="nav-item dropdown">

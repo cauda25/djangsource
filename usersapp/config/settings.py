@@ -127,3 +127,17 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 # 이미지 저장
 MEDIA_URL = "/media/"
 MEDIA_ROOT = Path(BASE_DIR, "media")
+
+# 로그인,로그아웃 성공시 경로 변경
+LOGIN_REDIRECT_URL = "/"
+LOGOUT_REDIRECT_URL = "/"
+
+# 이메일 발송 설정
+DEFAULT_FROM_EMAIL = "@naver.com"
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_HOST = ".naver.com"
+EMAIL_USE_TLS = False
+EMAIL_USE_SSL = True
+EMAIL_HOST_USER = ""
+EMAIL_HOST_PASSWORD = ""
+EMAIL_PORT = 465
