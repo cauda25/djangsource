@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block content %}
+
+  <div class="row gx-4 gx-lg-5 justify-content-center">
+    <div class="col-md-10 col-lg-8 col-xl-7">
+      {% if user.is_authenticated %}
+        <a href="{% url "blogs:create" %}" class="btn btn-primary">새글작성</a>
+      {% endif %}
+      <!-- Post preview-->
+      {% for list in post %}
+        <div class="post-preview">
+          <a href="{% url "blogs:detail" list.pk%}">
+            <h2 class="post-title">{{list.title}}</h2>
+            <p>{{list.content|truncatechars:50}}</p>
+          </a>
+          <p class="post-meta">
+            Posted by
+            <a href="#!">{{list.user.name}}</a>
+            {{list.created_at}}
+          </p>
+        </div>
+        <!-- Divider-->
+        <hr class="my-4"/>
+      {% endfor %}
+      <!-- Pager-->
+      <div class="d-flex justify-content-center mb-4">
+        {% if post.has_previous %}
+          <a class="btn btn-primary text-uppercase" href="?page={{post.previous_page_number}}">← Previous Posts</a>
+        {% endif %}
+
+        <a class="btn btn-primary text-uppercase" href="#">
+          {{post.number}}
+          /
+          {{post.paginator.num_pages}}
+        </a>
+
+        {% if post.has_next %}
+          <a class="btn btn-primary text-uppercase" href="?page={{post.next_page_number}}">Next Posts →</a>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+{% endblock content %}
