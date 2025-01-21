@@ -1,4 +1,6 @@
 {% extends "base.html" %}
+{% load static %}
+{% load board_filter %}
 {% block title %}
   <title>Board</title>
 {% endblock title %}
@@ -6,16 +8,16 @@
   <div class="row justify-content-between">
     <div class="col-md-3">
       <select name="" id="" class="form-select so">
-        <option value="recent">최신순</option>
-        <option value="recommend">추천순</option>
-        <option value="popular">인기순</option>
+        <option value="recent" {% if so == 'recent' %}selected{% endif %}>최신순</option>
+        <option value="recommend" {% if so == 'recommend' %}selected{% endif %}>추천순</option>
+        <option value="popular" {% if so == 'popular' %}selected{% endif %}>인기순</option>
       </select>
     </div>
     <div class="col-md-8">
-      <div class="input-group mb-3">
-        <input type="text" name="keyword" id="" class="form-control">
-        <button class="btn btn-outline-secondary">찾기</button>
-      </div>
+        <div class="input-group mb-3">
+          <input type="text" name="keyword" id="" class="form-control" value="{{keyword|default_if_none:''}}">
+          <button class="btn btn-outline-secondary" type="button">찾기</button>
+        </div>
     </div>
   </div>
 
@@ -30,8 +32,15 @@
       </thead>
       <tbody>
         {% for question in question_list %}
-          <tr>
-            <th>{{question.pk}}</th>
+          <tr> 
+            {% comment %} <th>{{question.pk}}</th> {% endcomment %}
+            {% comment %} 
+              question_list.paginator.count : 전체 게시물 개수
+              question_list.start_index : 1 부터 시작
+              forloop.counter0 : 현재 페이지에서 0부터 인덱스 시작
+              add:1 : +1
+            {% endcomment %}
+            <th>{{question_list.paginator.count|sub:question_list.start_index|sub:forloop.counter0|add:1}}</th>
             <td>
               <span class="badge text-bg-warning px-2 py-1">
                 <!-- 질문 추천수 -->
@@ -63,33 +72,41 @@
       </tbody>
     </table>
     <a href="{% url "board:create" %}" class="btn btn-primary">질문등록</a>
-
   </div>
+  <form action="{% url "board:index" %}" method="get" id="actionForm">
+    <input type="hidden" name="page" id="page" class="form-control" value="{{page}}">
+    <input type="hidden" name="keyword" id="keyword" class="form-control" value="{{keyword|default_if_none:''}}">
+    <input type="hidden" name="so" id="so" class="form-control" value="{{so|default_if_none:''}}">
+  </form>
+
   <nav aria-label="...">
     <ul class="pagination justify-content-center">
       {% if question_list.has_previous %}
         <li class="page-item">
-          <a class="page-link" href="?page=">Start</a>
+          <a class="page-link" href="?page=1&keyword={{keyword}}&so={{so}}">Start</a>
         </li>
         <li class="page-item">
-          <a class="page-link" href="?page={{question_list.previous_page_number}}">Previous</a>
+          <a class="page-link" href="?page={{question_list.previous_page_number}}&keyword={{keyword}}&so={{so}}">Previous</a>
         </li>
       {% endif %}
       {% for page in question_list.paginator.page_range %}
         {% if page >= question_list.number|add:-5 and page <= question_list.number|add:5 %}
           <li class="page-item {% if page == question_list.number %}active{% endif %} " aria-current="page">
-            <a class="page-link" href="?page={{page}}">{{page}}</a>
+            <a class="page-link" href="?page={{page}}&keyword={{keyword}}&so={{so}}">{{page}}</a>
           </li>
         {% endif %}
       {% endfor %}
       {% if question_list.has_next %}
         <li class="page-item">
-          <a class="page-link" href="?page={{question_list.next_page_number}}">Next</a>
+          <a class="page-link" href="?page={{question_list.next_page_number}}&keyword={{keyword}}&so={{so}}">Next</a>
         </li>
         <li class="page-item">
-          <a class="page-link" href="?page={{max_page}}">End</a>
+          <a class="page-link" href="?page={{max_page}}&keyword={{keyword}}&so={{so}}">End</a>
         </li>
       {% endif %}
     </ul>
   </nav>
 {% endblock content %}
+{% block script %}
+<script src="{% static "js/list.js" %}"></script>
+{% endblock script %}

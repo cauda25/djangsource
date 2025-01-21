@@ -1,4 +1,4 @@
-from django.shortcuts import render, get_object_or_404, redirect
+from django.shortcuts import render, get_object_or_404, redirect, resolve_url
 from ..models import Answer, Question
 from ..forms import AnswerForm
 
@@ -16,7 +16,12 @@ def answer_modify(request, id):
             answser = form.save(commit=False)
             answser.modityed_at = timezone.now()
             answser.save()
-            return redirect("board:detail", answser.question.id)
+            # return redirect("board:detail", answser.question.id)
+            return redirect(
+                "{}#answer_{}".format(
+                    resolve_url("board:detail", answser.question.id), answser.id
+                )
+            )
     else:
         form = AnswerForm(instance=answser)
     return render(request, "board/answer_form.html", {"form": form})
@@ -43,7 +48,11 @@ def answer_create(request, id):
             answer.question = question
             answer.author = request.user
             answer.save()
-            return redirect("board:detail", id)
+            return redirect(
+                "{}#answer_{}".format(
+                    resolve_url("board:detail", question.id), answer.id
+                )
+            )
     else:
         form = AnswerForm()
 

@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load static %}
+{% load board_filter %}
 {% block title %}
   <title>Board-상세조회</title>
 {% endblock title %}
@@ -37,7 +38,7 @@
         <div class="card-body">
           <div class="card-text" name="content">
             <!--질문내용-->
-            {{question.content}}
+            {{question.content|mark}}
           </div>
           <div class="d-flex justify-content-end">
             <div class="badge text-bg-light p-2 text-start">
@@ -102,7 +103,7 @@
   </h5>
   <!--답변 추쳔 영역-->
   {% for answer in question.answer_set.all %}
-    <a href="" name="">
+    <a href="" name="answer_{{answer.id}}">
       <!-- 답변 앵커 -->
     </a>
     <div class="row my-3">
@@ -115,7 +116,7 @@
           <div class="card-body">
             <div class="card-text" name="content">
               <!--답변내용-->
-              {{answer.content}}
+              {{answer.content|mark}}
             </div>
             <div class="d-flex justify-content-end">
               <div class="badge text-bg-light p-2 text-start">
