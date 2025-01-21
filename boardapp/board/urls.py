@@ -3,6 +3,7 @@ from .views.base_views import *
 from .views.question_views import *
 from .views.answer_views import *
 from .views.comment_views import *
+from .views.vote_views import *
 
 app_name = "board"
 
@@ -25,4 +26,8 @@ urlpatterns = [
     path("comment/create/answer/<int:id>/", comment_create_answer, name="cca"),
     path("comment/modify/answer/<int:id>/", comment_modify_answer, name="cma"),
     path("comment/delete/answer/<int:id>/", comment_delete_answer, name="cda"),
+    #### 질문 추천
+    path("question/vote/<int:question_id>/", vote_question, name="vq"),
+    #### 답변 추천
+    path("answer/vote/<int:answer_id>/", vote_answer, name="va"),
 ]

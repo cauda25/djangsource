@@ -12,6 +12,16 @@
   </style>
 {% endblock style %}
 {% block content %}
+  {% if messages %}
+    <div class="alert alert-danger my-3">
+      {% for msg in messages %}
+        <strong>{{msg.tags}}</strong>
+        <ul>
+          <li>{{msg.message}}</li>
+        </ul>
+      {% endfor %}
+    </div>
+  {% endif %}
   <h2 class="border-bottom py-2">
     <!--질문제목-->
     {{question.subject}}
@@ -19,8 +29,8 @@
   <!--추천영역-->
   <div class="row my-3">
     <div class="col-1">
-      <div class="bg-light text-center p-3 border font-weight-bolder mb-1"></div>
-      <a href="" class="recommen btn btn-sm btn-secondary btn-block my-1">추천</a>
+      <div class="bg-light text-center p-3 border font-weight-bolder mb-1">{{question.voter.count}}</div>
+      <a href="{% url "board:vq" question.id %}" class="recommen btn btn-sm btn-secondary btn-block my-1">추천</a>
     </div>
     <div class="col-11">
       <div class="card">
@@ -97,8 +107,8 @@
     </a>
     <div class="row my-3">
       <div class="col-1">
-        <div class="bg-light text-center p-3 border font-weight-bolder mb-1"></div>
-        <a href="" class="recommen btn btn-sm btn-secondary btn-block my-1">추천</a>
+        <div class="bg-light text-center p-3 border font-weight-bolder mb-1">{{answer.voter.count}}</div>
+        <a href="{% url "board:va" answer.id %}" class="recommen btn btn-sm btn-secondary btn-block my-1">추천</a>
       </div>
       <div class="col-11">
         <div class="card">
@@ -136,7 +146,7 @@
             <!-- 답변 댓글 영역 -->
             <div class="mt-3">
               {% for comment in answer.comment_set.all %}
-              <a href="" name="">
+              <a href="" name="answer_{{answer.id}}">
                 <!-- 답변 댓글 앵커 -->
               </a>
               <div class="comment py-2 text-muted">

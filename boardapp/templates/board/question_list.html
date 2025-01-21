@@ -35,7 +35,7 @@
             <td>
               <span class="badge text-bg-warning px-2 py-1">
                 <!-- 질문 추천수 -->
-
+                {{question.voter.count}}
               </span>
             </td>
             <td>
@@ -68,6 +68,9 @@
   <nav aria-label="...">
     <ul class="pagination justify-content-center">
       {% if question_list.has_previous %}
+        <li class="page-item">
+          <a class="page-link" href="?page={{question_list.previous_page_start}}">Start</a>
+        </li>
         <li class="page-item">
           <a class="page-link" href="?page={{question_list.previous_page_number}}">Previous</a>
         </li>

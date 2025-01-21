@@ -12,6 +12,10 @@ class Question(models.Model):
     created_at = models.DateTimeField(auto_now_add=True, verbose_name="작성일시")
     modityed_at = models.DateTimeField(null=True, blank=True, verbose_name="수정일시")
     author = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="작성자")
+    # 추천
+    voter = models.ManyToManyField(
+        User, related_name="voter_question", verbose_name="추천"
+    )
 
     def __str__(self):
         return self.subject
@@ -25,6 +29,9 @@ class Answer(models.Model):
     created_at = models.DateTimeField(auto_now_add=True, verbose_name="작성일시")
     modityed_at = models.DateTimeField(null=True, blank=True, verbose_name="수정일시")
     author = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="작성자")
+    voter = models.ManyToManyField(
+        User, related_name="voter_answer", verbose_name="추천"
+    )
 
     def __str__(self):
         return self.content
