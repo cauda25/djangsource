@@ -16,7 +16,13 @@ def index(request):
     # 전체 질문 추출(작성일시 내림차순)
     objects = Question.objects.order_by("-created_at")
 
-    paginator = Paginator(objects, 10)
-    question_list = paginator.get_page(page)
+    paginator = Paginator(objects, 10)  # 페이징 처리
+    max_page = len(paginator.page_range)  # 마지막 페이지
 
-    return render(request, "board/question_list.html", {"question_list": question_list})
+    question_list = paginator.get_page(page)  # 페이지 생성 객체
+
+    return render(
+        request,
+        "board/question_list.html",
+        {"question_list": question_list, "max_page": max_page},
+    )
