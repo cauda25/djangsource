@@ -1,5 +1,8 @@
 from django.urls import path
-from .views import *
+from .views.base_views import *
+from .views.question_views import *
+from .views.answer_views import *
+from .views.comment_views import *
 
 app_name = "board"
 
