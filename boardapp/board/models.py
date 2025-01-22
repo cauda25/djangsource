@@ -16,9 +16,22 @@ class Question(models.Model):
     voter = models.ManyToManyField(
         User, related_name="voter_question", verbose_name="추천"
     )
+    # 조회수
+    view_cut = models.IntegerField(default=0)
 
     def __str__(self):
         return self.subject
+
+
+# 조회수 업데이트를 위한 모델
+class QuestionCount(models.Model):
+    ip = models.CharField(max_length=30, verbose_name="주소")
+    question = models.ForeignKey(
+        Question, verbose_name="질문", on_delete=models.CASCADE
+    )
+
+    def __unicode__(self):
+        return self.ip
 
 
 class Answer(models.Model):
@@ -32,6 +45,7 @@ class Answer(models.Model):
     voter = models.ManyToManyField(
         User, related_name="voter_answer", verbose_name="추천"
     )
+    view_cut = models.IntegerField(default=0)
 
     def __str__(self):
         return self.content

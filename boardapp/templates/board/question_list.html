@@ -29,6 +29,8 @@
         <th>제목</th>
         <th>작성자</th>
         <th>작성일시</th>
+        <th>조회수</th>
+      </thead>
       </thead>
       <tbody>
         {% for question in question_list %}
@@ -67,45 +69,49 @@
               <!-- 질문 작성일시 -->
               {{question.created_at}}
             </td>
+            <td>
+              {{question.view_cut}}
+            </td>
           </tr>
         {% endfor %}
       </tbody>
     </table>
     <a href="{% url "board:create" %}" class="btn btn-primary">질문등록</a>
   </div>
-  <form action="{% url "board:index" %}" method="get" id="actionForm">
-    <input type="hidden" name="page" id="page" class="form-control" value="{{page}}">
-    <input type="hidden" name="keyword" id="keyword" class="form-control" value="{{keyword|default_if_none:''}}">
-    <input type="hidden" name="so" id="so" class="form-control" value="{{so|default_if_none:''}}">
-  </form>
+  
 
   <nav aria-label="...">
     <ul class="pagination justify-content-center">
       {% if question_list.has_previous %}
         <li class="page-item">
-          <a class="page-link" href="?page=1&keyword={{keyword}}&so={{so}}">Start</a>
+          <a class="page-link" href=""><<</a>
         </li>
         <li class="page-item">
-          <a class="page-link" href="?page={{question_list.previous_page_number}}&keyword={{keyword}}&so={{so}}">Previous</a>
+          <a class="page-link" href="{{question_list.previous_page_number}}">Previous</a>
         </li>
       {% endif %}
       {% for page in question_list.paginator.page_range %}
         {% if page >= question_list.number|add:-5 and page <= question_list.number|add:5 %}
           <li class="page-item {% if page == question_list.number %}active{% endif %} " aria-current="page">
-            <a class="page-link" href="?page={{page}}&keyword={{keyword}}&so={{so}}">{{page}}</a>
+            <a class="page-link" href="{{page}}">{{page}}</a>
           </li>
         {% endif %}
       {% endfor %}
       {% if question_list.has_next %}
         <li class="page-item">
-          <a class="page-link" href="?page={{question_list.next_page_number}}&keyword={{keyword}}&so={{so}}">Next</a>
+          <a class="page-link" href="{{question_list.next_page_number}}">Next</a>
         </li>
         <li class="page-item">
-          <a class="page-link" href="?page={{max_page}}&keyword={{keyword}}&so={{so}}">End</a>
+          <a class="page-link" href="{{max_page}}">>></a>
         </li>
       {% endif %}
     </ul>
   </nav>
+  <form action="{% url "board:index" %}" method="get" id="actionForm">
+    <input type="hidden" name="page" id="page" class="form-control" value="{{page}}">
+    <input type="hidden" name="keyword" id="keyword" class="form-control" value="{{keyword|default_if_none:''}}">
+    <input type="hidden" name="so" id="so" class="form-control" value="{{so|default_if_none:''}}">
+  </form>
 {% endblock content %}
 {% block script %}
 <script src="{% static "js/list.js" %}"></script>

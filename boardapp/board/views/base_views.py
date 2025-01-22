@@ -1,13 +1,40 @@
 from django.shortcuts import render, get_object_or_404
-from ..models import Question
+from ..models import Question, QuestionCount
+from tools.utils import get_client_ip
 from django.core.paginator import Paginator
 from django.db.models import Q, Count
 
 
 def detail(request, id):
+    page = request.GET.get("page", 1)
+
+    keyword = request.GET.get("keyword", "")
+
+    so = request.GET.get("so", "")
     question = get_object_or_404(Question, id=id)
 
-    return render(request, "board/question_detail.html", {"question": question})
+    # 조회수
+    ip = get_client_ip(request)
+    # question에 동일한 ip가 있는지 확인
+    cnt = QuestionCount.objects.filter(ip=ip, question=question).count()
+
+    if cnt == 0:
+        qc = QuestionCount(ip=ip, question=question)
+        qc.save()
+        if question.view_cut:
+            question.view_cut += 1
+        else:
+            question.view_cut = 1
+        question.save()
+
+    context = {
+        "question": question,
+        "page": page,
+        "keyword": keyword,
+        "so": so,
+    }
+
+    return render(request, "board/question_detail.html", context)
 
 
 def index(request):
@@ -19,11 +46,11 @@ def index(request):
     so = request.GET.get("so", "")
 
     # 전체 질문 추출(작성일시 내림차순)
-    if so == "popular":
+    if so == "recommend":
         objects = Question.objects.annotate(num_voter=Count("voter")).order_by(
             "-num_voter", "-created_at"
         )
-    elif so == "recommend":
+    elif so == "popular":
         objects = Question.objects.annotate(num_answer=Count("answer")).order_by(
             "-num_answer", "-created_at"
         )
